@@ -1,6 +1,5 @@
 package com.example.fullstack;
 
-import io.quarkus.logging.Log;
 import io.vertx.pgclient.PgException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
@@ -22,7 +21,7 @@ public class RestExceptionHandler implements ExceptionMapper<HibernateException>
     if (hasExceptionInChain(exception, ObjectNotFoundException.class)) {
       return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();
     }
-Log.info("### " + exception.getClass());
+
     if (hasExceptionInChain(exception, StaleObjectStateException.class) || hasPostgresErrorCode(
         exception, PG_UNIQUE_VIOLATION_ERROR)) {
       return Response.status(Response.Status.CONFLICT).build();
@@ -33,8 +32,6 @@ Log.info("### " + exception.getClass());
   }
 
   private boolean hasPostgresErrorCode(Throwable throwable, String code) {
-    getExceptionInChain(throwable, PgException.class).ifPresent(
-        ex -> Log.info("### " + ex.getSqlState()));
     return getExceptionInChain(throwable, PgException.class).filter(
         ex -> Objects.equals(ex.getSqlState(), code)).isPresent();
   }
