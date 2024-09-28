@@ -1,6 +1,7 @@
 package com.example.fullstack.task;
 
 import io.smallrye.mutiny.Uni;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -12,6 +13,7 @@ import jakarta.ws.rs.PathParam;
 import java.util.List;
 
 @Path("/api/v1/tasks")
+@RolesAllowed("user")
 public class TaskResource {
 
   private final TaskService taskService;

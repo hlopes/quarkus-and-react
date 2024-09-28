@@ -14,6 +14,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import java.util.List;
 
 @Path("/api/v1/users")
+@RolesAllowed("admin")
 public class UserResource {
 
   private final UserService userService;
@@ -63,6 +64,7 @@ public class UserResource {
 
   @GET
   @Path("self")
+  @RolesAllowed("user")
   public Uni<User> getSelf() {
     return userService.getCurrentUser();
   }

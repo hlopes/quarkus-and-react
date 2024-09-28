@@ -1,6 +1,7 @@
 package com.example.fullstack.project;
 
 import io.smallrye.mutiny.Uni;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -13,6 +14,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import java.util.List;
 
 @Path("/api/v1/projects")
+@RolesAllowed("user")
 public class ProjectResource {
 
   private final ProjectService projectService;
