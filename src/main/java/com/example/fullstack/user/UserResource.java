@@ -1,6 +1,7 @@
 package com.example.fullstack.user;
 
 import io.smallrye.mutiny.Uni;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -46,15 +47,23 @@ public class UserResource {
     return userService.update(user);
   }
 
+  @PUT
+  @Path("self/password")
+  @RolesAllowed("user")
+  public Uni<User> changePassword(PasswordChange passwordChange) {
+    return userService.changePassword(passwordChange.currentPassword(),
+        passwordChange.newPassword());
+  }
+
   @DELETE
   @Path("{id}")
-  public Uni<Void> delete(@PathParam("id") long id){
+  public Uni<Void> delete(@PathParam("id") long id) {
     return userService.delete(id);
   }
 
   @GET
   @Path("self")
-  public Uni<User> getSelf(){
+  public Uni<User> getSelf() {
     return userService.getCurrentUser();
   }
 }

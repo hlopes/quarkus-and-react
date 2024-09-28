@@ -7,10 +7,10 @@ import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.ClientErrorException;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.hibernate.ObjectNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -46,8 +46,24 @@ public class UserService {
 
   @Transactional
   public Uni<User> update(User user) {
-    return findById(user.id).chain(() -> User.getSession())
-        .chain(sessionUser -> sessionUser.merge(user));
+    return findById(user.id).chain(foundUser -> {
+      user.setPassword(foundUser.password);
+
+      return User.getSession();
+    }).chain(sessionUser -> sessionUser.merge(user));
+  }
+
+  @Transactional
+  public Uni<User> changePassword(String currentPassword, String newPassword) {
+    return getCurrentUser().chain(user -> {
+      if (!matches(user, currentPassword)) {
+        throw new ClientErrorException("Current password does not match", Response.Status.CONFLICT);
+      }
+
+      user.setPassword(BcryptUtil.bcryptHash(newPassword));
+
+      return user.persistAndFlush();
+    });
   }
 
   @Transactional
