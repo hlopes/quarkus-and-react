@@ -1,5 +1,6 @@
 package com.example.fullstack.user;
 
+import com.example.fullstack.user.dtos.PasswordChangeRequest;
 import io.smallrye.mutiny.Uni;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.DELETE;
@@ -51,7 +52,7 @@ public class UserResource {
   @PUT
   @Path("self/password")
   @RolesAllowed("user")
-  public Uni<User> changePassword(PasswordChange passwordChange) {
+  public Uni<User> changePassword(PasswordChangeRequest passwordChange) {
     return userService.changePassword(passwordChange.currentPassword(),
         passwordChange.newPassword());
   }

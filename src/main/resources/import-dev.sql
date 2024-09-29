@@ -26,3 +26,4 @@ INSERT INTO "projects" ("id", "name", "user_id", "created", "version")
 VALUES (0, 'Work', 1, NOW(), 0) ON CONFLICT DO NOTHING;
 
 ALTER SEQUENCE IF EXISTS hibernate_sequence RESTART WITH 10;
+ALTER SEQUENCE IF EXISTS user_id_seq RESTART WITH 10;

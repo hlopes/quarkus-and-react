@@ -25,3 +25,8 @@ mp:
       sql-load-script: "import-dev.sql"
       log:
         sql: true
+
+"%test":
+  quarkus:
+    hibernate-orm:
+      sql-load-script: "import-dev.sql"

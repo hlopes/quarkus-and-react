@@ -1,5 +1,6 @@
 package com.example.fullstack.auth;
 
+import com.example.fullstack.auth.dtos.AuthRequest;
 import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.smallrye.mutiny.Uni;
 import jakarta.annotation.security.PermitAll;

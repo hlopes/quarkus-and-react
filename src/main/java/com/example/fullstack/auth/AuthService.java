@@ -1,5 +1,6 @@
 package com.example.fullstack.auth;
 
+import com.example.fullstack.auth.dtos.AuthRequest;
 import com.example.fullstack.user.UserService;
 import io.quarkus.security.AuthenticationFailedException;
 import io.smallrye.jwt.build.Jwt;
